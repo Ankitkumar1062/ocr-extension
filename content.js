@@ -1,3 +1,4 @@
+
 var jcrop, selection
 
 var overlay = ((active) => (state) => {
