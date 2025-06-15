@@ -21,11 +21,11 @@ function inject(tab) {
 
     var timeout = setTimeout(() => {
         chrome.tabs.insertCSS(tab.id, { file: 'vendor/jquery.Jcrop.min.css', runAt: 'document_start' })
-        chrome.tabs.insertCSS(tab.id, { file: 'css/content.css', runAt: 'document_start' })
+        chrome.tabs.insertCSS(tab.id, { file: 'src/css/content.css', runAt: 'document_start' })
 
         chrome.tabs.executeScript(tab.id, { file: 'vendor/jquery.min.js', runAt: 'document_start' })
         chrome.tabs.executeScript(tab.id, { file: 'vendor/jquery.Jcrop.min.js', runAt: 'document_start' })
-        chrome.tabs.executeScript(tab.id, { file: 'content/content.js', runAt: 'document_start' })
+        chrome.tabs.executeScript(tab.id, { file: 'src/content_scripts/content.js', runAt: 'document_start' })
 
         setTimeout(() => {
             chrome.tabs.sendMessage(tab.id, { message: 'init' })
@@ -45,6 +45,11 @@ chrome.commands.onCommand.addListener((command) => {
             inject(tab)
         })
     }
+    else if (command === 'activate-ocr') {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            inject(tabs[0]);
+        });
+    }
 })
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
@@ -54,7 +59,7 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
             chrome.tabs.getSelected(null, (tab) => {
 
                 chrome.tabs.captureVisibleTab(tab.windowId, { format: config.format }, (image) => {
-                    crop(image, req.area, req.dpr, config.dpr, config.format, tab,(cropped) => {
+                    crop(image, req.area, req.dpr, config.dpr, config.format, tab, config.lang, (cropped) => {
                         res({ message: 'extracted' })
                     })
                 })
@@ -75,10 +80,34 @@ chrome.runtime.onMessage.addListener((req, sender, res) => {
             chrome.browserAction.setBadgeText({ tabId: sender.tab.id, text: '' })
         }
     }
+    else if (req.message === 'uploadImageForOcr') {
+        Tesseract.recognize(req.imageData, {
+            lang: req.lang || 'eng'
+        })
+        .then(function (result) {
+            let cleanedText = result.text.replace(/[""]/g, '"')
+                                         .replace(/['']/g, "'")
+                                         .replace(/–/g, '-')
+                                         .replace(/\r\n/g, '\n');
+
+            // Store extracted text in history
+            chrome.storage.local.get({ ocrHistory: [] }, (res) => {
+                const history = res.ocrHistory;
+                history.unshift(cleanedText); // Add to the beginning
+                if (history.length > 10) { // Keep only the last 10 items
+                    history.pop();
+                }
+                chrome.storage.local.set({ ocrHistory: history });
+            });
+
+            // Send the cleaned text to the options page for preview
+            chrome.runtime.sendMessage({ message: 'ocrText', text: cleanedText });
+        });
+    }
     return true
 })
 
-function crop(image, area, dpr, preserve, format, tab, done) {
+function crop(image, area, dpr, preserve, format, tab, lang, done) {
     var top = area.y * dpr
     var left = area.x * dpr
     var width = area.w * dpr
@@ -107,20 +136,32 @@ function crop(image, area, dpr, preserve, format, tab, done) {
         var cropped = canvas.toDataURL(`image/${format}`)
 
         Tesseract.recognize(cropped, {
-            lang: 'eng'
+            lang: lang || 'eng'
         })
             .then(function (result) {
+                let cleanedText = result.text.replace(/[""]/g, '"')
+                                             .replace(/['']/g, "'")
+                                             .replace(/–/g, '-')
+                                             .replace(/\r\n/g, '\n');
 
-                document.oncopy = function (event) {
-                    event.clipboardData.setData('text/plain', result.text);
-                    event.preventDefault();
-                };
-                document.execCommand("copy", false, null);
                 chrome.tabs.sendMessage(tab.id, { message: 'loaded' }, (res) => {
                     if (res) {
                         clearTimeout(timeout)
                     }
                 })
+
+                // Store extracted text in history
+                chrome.storage.local.get({ ocrHistory: [] }, (result) => {
+                    const history = result.ocrHistory;
+                    history.unshift(cleanedText); // Add to the beginning
+                    if (history.length > 10) { // Keep only the last 10 items
+                        history.pop();
+                    }
+                    chrome.storage.local.set({ ocrHistory: history });
+                });
+
+                // Send the cleaned text to the options page for preview
+                chrome.runtime.sendMessage({ message: 'ocrText', text: cleanedText });
             });
 
 

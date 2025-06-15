@@ -1,0 +1,425 @@
+/* CSS Variables */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-light: #f8f9fa;
+  --background-dark: #343a40;
+  --text-color-light: #212529;
+  --text-color-dark: #e9ecef;
+  --card-background-light: #ffffff;
+  --card-background-dark: #495057;
+  --border-color-light: #dee2e6;
+  --border-color-dark: #6c757d;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --font-family: 'Inter', sans-serif; /* A modern sans-serif font */
+  --heading-font-weight: 600;
+  --body-font-size: 16px;
+  --border-radius: 8px;
+  --spacing-unit: 16px;
+}
+
+/* Base Styles */
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #f0f2f5 0%, #e0e4eb 100%); /* Subtle gradient background */
+  color: var(--text-color-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -52px; /* Adjust if footer height changes */
+}
+
+/* Remove old MDC-related styles */
+.mdc-toolbar__row,
+header .mdc-toolbar__title,
+header nav,
+header nav a,
+.mdc-select__native-control,
+.mdc-text-field__input,
+.mdc-select__dropdown-icon,
+.mdc-button--raised,
+.mdc-radio {
+  all: unset; /* Reset all properties for these elements */
+  display: contents; /* Makes children participate in the parent's layout */
+}
+
+/* Existing custom scrollbars - keep for now if they work */
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+::-webkit-scrollbar-track-piece {
+  background: #ececec;
+  -webkit-border-radius: 2px;
+}
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background: #afbdc3;
+  -webkit-border-radius: 8px;
+  outline: 2px solid #333;
+  outline-offset: -2px;
+  border: 2px solid #ececec;
+}
+::-webkit-scrollbar-thumb:hover {
+  height: 50px;
+  background-color: #607d8b;
+  -webkit-border-radius: 8px;
+}
+
+/* Footer - simplified */
+footer {
+  height: auto;
+  padding: var(--spacing-unit) calc(2 * var(--spacing-unit));
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-color-dark);
+  text-align: center;
+  background-color: var(--background-dark);
+}
+
+footer a {
+  color: var(--text-color-dark);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Remove remaining unused MDC classes from the HTML */
+/* Also remove .bs-callout, .s-button, .s-label, .center-me, .center-me-bottom for a clean slate */
+
+/* Options Page Specific Styles */
+.options-advanced-container {
+  max-width: 900px;
+  margin: 32px auto;
+  background: var(--card-background-light);
+  border-radius: var(--border-radius);
+  box-shadow: 0 12px 40px var(--shadow-color); /* Enhanced shadow */
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease; /* Added transition */
+}
+
+.options-header {
+  padding: calc(2 * var(--spacing-unit)) var(--spacing-unit) var(--spacing-unit);
+  text-align: center;
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.options-header h1 {
+  font-size: 2.4rem;
+  font-weight: var(--heading-font-weight);
+  letter-spacing: -1px;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.options-header h1 span {
+  color: var(--secondary-color);
+  font-weight: 400;
+}
+
+.options-main {
+  padding: calc(2 * var(--spacing-unit)) var(--spacing-unit) var(--spacing-unit);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(2 * var(--spacing-unit));
+}
+
+.options-card {
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Enhanced card shadow */
+  padding: calc(1.5 * var(--spacing-unit));
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-unit);
+  min-width: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Added transitions */
+}
+
+.options-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.options-card h2 {
+  font-size: 1.2rem;
+  font-weight: var(--heading-font-weight);
+  margin: 0 0 calc(0.5 * var(--spacing-unit)) 0;
+  color: var(--primary-color);
+}
+
+.options-span-2 {
+  grid-column: span 2;
+}
+
+.options-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit);
+  margin-top: calc(0.5 * var(--spacing-unit));
+}
+
+/* Form Elements */
+select,
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: calc(0.75 * var(--spacing-unit)) var(--spacing-unit);
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--border-radius-small, 6px);
+  font-size: var(--body-font-size);
+  background: var(--card-background-light);
+  color: var(--text-color-light);
+  margin-top: calc(0.25 * var(--spacing-unit));
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Added transitions */
+}
+
+select:focus,
+textarea:focus,
+input[type="file"]:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent); /* Focus shadow */
+}
+
+textarea {
+  min-height: 120px; /* Increased min-height for better text display */
+  resize: vertical;
+  font-family: 'Fira Code', 'Inter', monospace; /* Prioritize Fira Code for code-like appearance */
+  background-color: var(--card-background-light);
+  color: var(--text-color-light);
+  padding: var(--spacing-unit); /* More padding */
+  border-radius: var(--border-radius-small, 6px); /* Rounded corners */
+  border: 1px solid var(--border-color-light); /* Light border */
+}
+
+.status-msg {
+  font-size: 0.9em;
+  color: var(--primary-color);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  margin-left: calc(0.5 * var(--spacing-unit));
+}
+
+/* Buttons */
+.options-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-small, 6px);
+  padding: calc(0.75 * var(--spacing-unit)) calc(1.5 * var(--spacing-unit));
+  font-size: var(--body-font-size);
+  font-weight: var(--heading-font-weight);
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease; /* Added transform transition */
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.options-btn:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 85%, black);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 20%, transparent);
+  transform: translateY(-1px); /* Slight lift on hover */
+}
+
+.options-btn:active {
+  transform: translateY(0); /* Press effect */
+}
+
+/* Toggle Switch */
+.switch {
+  display: flex;
+  align-items: center;
+  gap: calc(0.75 * var(--spacing-unit));
+  cursor: pointer;
+}
+
+.switch-label {
+  font-size: var(--body-font-size);
+  color: var(--text-color-light);
+}
+
+.switch input[type="checkbox"] {
+  display: none;
+}
+
+.slider {
+  width: 44px;
+  height: 24px;
+  background: var(--border-color-light);
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+}
+
+.slider:before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--card-background-light);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Added transition for background-color */
+  box-shadow: 0 1px 4px var(--shadow-color);
+}
+
+.switch input[type="checkbox"]:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+.switch input[type="checkbox"]:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: #fff; /* Ensure thumb is white when checked */
+}
+
+/* Checkbox Label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: calc(0.5 * var(--spacing-unit));
+  font-size: var(--body-font-size);
+  color: var(--text-color-light);
+  margin-bottom: calc(0.5 * var(--spacing-unit));
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  accent-color: var(--primary-color);
+  width: 18px;
+  height: 18px;
+  display: inline-block; /* Ensure checkbox is visible */
+  transition: accent-color 0.2s ease; /* Added transition */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .options-advanced-container {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
+  .options-main {
+    padding: calc(1.5 * var(--spacing-unit)) calc(0.25 * var(--spacing-unit)) var(--spacing-unit);
+  }
+}
+
+@media (max-width: 700px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-unit);
+  }
+  .options-span-2 {
+    grid-column: span 1;
+  }
+  .options-header {
+    padding: calc(1.5 * var(--spacing-unit)) var(--spacing-unit) calc(0.5 * var(--spacing-unit));
+  }
+}
+
+/* Dark Theme Styles */
+body.dark-theme {
+  background: linear-gradient(135deg, #2c3038 0%, #1e2126 100%); /* Darker gradient */
+  color: var(--text-color-dark);
+}
+
+body.dark-theme .options-advanced-container {
+  background-color: var(--card-background-dark);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6); /* Darker shadow for dark theme */
+}
+
+body.dark-theme .options-header h1 {
+  color: color-mix(in srgb, var(--primary-color) 80%, white);
+}
+
+body.dark-theme .options-card {
+  background-color: var(--background-dark);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); /* Darker card shadow */
+}
+
+body.dark-theme .options-card h2 {
+  color: color-mix(in srgb, var(--primary-color) 80%, white);
+}
+
+body.dark-theme select,
+body.dark-theme textarea,
+body.dark-theme input[type="file"] {
+  background-color: var(--background-dark);
+  color: var(--text-color-dark);
+  border-color: var(--border-color-dark);
+}
+
+body.dark-theme select:focus,
+body.dark-theme textarea:focus,
+body.dark-theme input[type="file"]:focus {
+  border-color: color-mix(in srgb, var(--primary-color) 80%, white);
+}
+
+body.dark-theme .options-btn {
+  background-color: color-mix(in srgb, var(--primary-color) 80%, white);
+  color: var(--background-dark);
+}
+
+body.dark-theme .options-btn:hover {
+  background-color: var(--primary-color);
+}
+
+body.dark-theme .slider {
+  background-color: var(--border-color-dark);
+}
+
+body.dark-theme .switch input[type="checkbox"]:checked + .slider {
+  background-color: color-mix(in srgb, var(--primary-color) 80%, white);
+}
+
+body.dark-theme .slider:before {
+  background-color: var(--text-color-dark); /* Ensure thumb is darker for dark theme */
+}
+
+body.dark-theme .switch input[type="checkbox"]:checked + .slider:before {
+  background-color: #fff; /* Thumb white when checked in dark mode */
+}
+
+body.dark-theme .checkbox-label {
+  color: var(--text-color-dark);
+}
+
+code {
+  background-color: var(--background-light);
+  color: var(--text-color-light);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Mono', monospace;
+  font-size: 0.9em;
+  border: 1px solid var(--border-color-light);
+}
+
+body.dark-theme code {
+  background-color: var(--background-dark);
+  color: var(--text-color-dark);
+}
+
+/* Additional general styles for consistency */
+p {
+  font-size: var(--body-font-size);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-unit);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}

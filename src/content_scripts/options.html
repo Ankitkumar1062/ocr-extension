@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCR Extension Options</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="/src/css/options.css" rel="stylesheet" type="text/css" media="all" />
+  <script src="../content_scripts/options.js"></script>
+</head>
+<body>
+  <div class="options-advanced-container">
+    <header class="options-header">
+      <h1>OCR Extension <span>Options</span></h1>
+    </header>
+    <main class="options-main">
+      <div class="options-grid">
+        <section class="options-card">
+          <h2>Language</h2>
+          <select id="lang">
+            <option value="eng">English</option>
+            <option value="hin">Hindi</option>
+            <option value="deu">German</option>
+          </select>
+        </section>
+        <section class="options-card">
+          <h2>Theme</h2>
+          <label class="switch">
+            <input type="checkbox" id="darkThemeToggle">
+            <span class="slider"></span>
+            <span class="switch-label">Dark Mode</span>
+          </label>
+        </section>
+        <section class="options-card options-span-2">
+          <h2>OCR Text Preview</h2>
+          <textarea id="output" rows="8" placeholder="Extracted text will appear here..."></textarea>
+          <div class="options-row">
+            <button id="copyButton" class="options-btn">Copy to Clipboard</button>
+            <span id="statusMsg" class="status-msg"></span>
+          </div>
+        </section>
+        <section class="options-card">
+          <h2>History</h2>
+          <select id="historySelect">
+            <option value="" disabled selected>Select from history</option>
+          </select>
+        </section>
+        <section class="options-card">
+          <h2>File Upload</h2>
+          <input type="file" id="imageUpload" accept="image/*">
+        </section>
+        <section class="options-card options-span-2">
+          <h2>Formatting Presets</h2>
+          <label class="checkbox-label"><input type="checkbox" id="markdownCodeBlock"> Markdown Code Block (```)</label>
+          <label class="checkbox-label"><input type="checkbox" id="htmlCodeBlock"> HTML &lt;pre&gt;&lt;code&gt;</label>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

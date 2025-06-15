@@ -6,13 +6,13 @@
 
   "browser_action": {
     "default_icon": {
-      "19" : "/images/icon19.png",
-      "38" : "/images/icon38.png"
+      "19" : "/src/assets/images/icon19.png",
+      "38" : "/src/assets/images/icon38.png"
     },
     "default_title": "OCR Extension - copy text from images"
   },
 
-  "options_page": "/content/options.html",
+  "options_page": "/src/content_scripts/options.html",
 
   "background" : {
     "scripts": [
@@ -22,8 +22,8 @@
   },
 
   "web_accessible_resources": [
-    "/images/Jcrop.gif",
-    "/images/pixel.png"
+    "/src/assets/images/Jcrop.gif",
+    "/src/assets/images/pixel.png"
   ],
 
   "commands": {
@@ -32,13 +32,19 @@
         "default": "Alt+S"
       },
       "description": "Take Screenshot"
+    },
+    "activate-ocr": {
+      "suggested_key": {
+        "default": "Alt+Shift+O"
+      },
+      "description": "Activate OCR Overlay"
     }
   },
 
   "icons": {
-    "16"  : "images/icon16.png",
-    "48"  : "images/icon48.png",
-    "128" : "images/icon128.png"
+    "16"  : "src/assets/images/icon16.png",
+    "48"  : "src/assets/images/icon48.png",
+    "128" : "src/assets/images/icon128.png"
   },
   "homepage_url": "https://github.com/Ankitkumar1062/ocr-extension",
 
@@ -48,5 +54,5 @@
     "clipboardWrite",
     "clipboardRead"
   ],
-  "content_security_policy":"script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'; font-src 'self' fonts.gstatic.com data:"
 }
