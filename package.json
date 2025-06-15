@@ -1,0 +1,34 @@
+{
+  "name": "ocr-extension",
+  "version": "0.0.2",
+  "description": "A Chrome extension to extract text from images and copy it to the clipboard.",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack -wp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ankitkumar1062/ocr-extension.git"
+  },
+  "keywords": [
+    "OCR",
+    "Text",
+    "extraction",
+    "Clipboard",
+    "optical",
+    "character",
+    "recognition"
+  ],
+  "author": "Ankitkumar",
+  "bugs": {
+    "url": "https://github.com/Ankitkumar1062/ocr-extension/issues"
+  },
+  "homepage": "https://github.com/Ankitkumar1062/ocr-extension#readme",
+  "devDependencies": {
+    "webpack": "^4.27.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "tesseract.js": "^1.0.14"
+  }
+}
